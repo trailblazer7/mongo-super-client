@@ -1,6 +1,7 @@
 {
   "name": "mongosuperclient",
   "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "dev": "nw src/",
     "prod": "nwbuild --platforms win32,win64,osx64,linux32,linux64 --buildDir dist/ src/",
