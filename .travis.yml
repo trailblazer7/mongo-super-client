@@ -1,6 +1,12 @@
 language: node_js
 node_js:
   - "6"
+notifications:
+  email: false
+os:
+  - linux
+  - osx
+  - windows
 cache:
   directories:
     - "node_modules"
