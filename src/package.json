@@ -1,0 +1,9 @@
+{
+  "name":"mongosuperclient",
+  "main":"views/main.html",
+  "window":{
+    "min_width":800,
+    "min_height":600,
+    "icon":"assets/icon.png"
+  }
+}
