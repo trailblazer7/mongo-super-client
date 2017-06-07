@@ -1,17 +1,8 @@
-var app = angular.module('msc-app', ['ngRoute']);
+var mongoClientApp = angular.module('mongoClientApp', ['ngRoute']);
 
-app.config(function($routeProvider) {
-    $routeProvider
-    .when('/', {
-        templateUrl: 'home.html'
-    })
-    .when('hello', {
-        templateUrl: 'hello.html'
-    })
-    .when('world', {
-        templateUrl: 'world.html'
-    })
-});
+mongoClientApp.controller('QueryCtrl', ['$scope', function($scope) {
 
-var mongojs = require('mongojs');
-var db = mongojs;
+  $scope.runQuery = function() {
+    $scope.yourQuery = '';
+  }
+}]);

@@ -1,0 +1,16 @@
+body {
+    background-color: #eeedef;
+}
+
+h1 {
+    color: #377ec7;
+}
+
+.main-textarea {
+    background-color: #3c3c3c;
+    color: white;
+}
+
+.query-text {
+    color: #dfc073;
+}
