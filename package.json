@@ -26,6 +26,7 @@
   "dependencies": {
     "angular": "^1.6.4",
     "angular-route": "^1.6.4",
+    "bluebird": "^3.5.0",
     "bootstrap": "^3.3.7",
     "electron-gh-releases": "^2.0.4",
     "electron-packager": "^8.7.1",

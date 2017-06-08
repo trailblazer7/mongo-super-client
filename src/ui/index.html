@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-<html ng-app="mongoClientApp">
+<html ng-app="app">
   <head>
     <meta charset="UTF-8">
     <title>Mongo Super Client</title>
 
-    <link href="../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="../../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
     <link href="./css/styles.css" rel="stylesheet">
 
-    <script src="../node_modules/angular/angular.js"></script>
-    <script src="../node_modules/angular-route/angular-route.js"></script>
-    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../../node_modules/angular/angular.js"></script>
+    <script src="../../node_modules/angular-route/angular-route.js"></script>
+    <script src="../../node_modules/jquery/dist/jquery.js"></script>
+
+    <script src="./app.js"></script>
+    <script src="./directives/result/result.js"></script>
+    <script src="./controllers/queryCtrl.js"></script>
   </head>
   <body>
-    <div class="container" ng-controller="QueryCtrl">
+    <div class="container" ng-controller="queryCtrl">
       <h1>Mongo Super Client</h1>
 
       <div class="form-group">
@@ -24,10 +28,7 @@
       <div class="form-group">
         <h2>QUERY: <span class="control-label has-success query-text">{{yourQuery}}</span></h2> 
       </div>
+      <result></result>
     </div>
   </body>
-
-  <script>
-    require('../renderer.js')
-  </script>
 </html>
