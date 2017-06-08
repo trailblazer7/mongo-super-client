@@ -17,7 +17,7 @@ function createWindow () {
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'src/index.html'),
+    pathname: path.join(__dirname, 'src/ui/index.html'),
     protocol: 'file:',
     slashes: true
   }))
@@ -58,9 +58,3 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-
-var dbUrl = 'localhost/mongoclientapp';
-var collections = ['users'];
-var db = require('mongojs').connect(dbUrl, collections);
-
-console.log(db);
