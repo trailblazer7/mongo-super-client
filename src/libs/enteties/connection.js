@@ -1,11 +1,15 @@
 'use strict';
 
 const MongoClient = require('mongodb').MongoClient;
-const dbConfig = require('../../dbConfig');
-const defaultCollection = require('../../defaultCollection.json');
+const dbConfig = require('src/dbConfig');
 
 class Connection {
-    constructor() {
+    constructor() {} 
+
+    /**
+     * @param {Function} callback
+     */
+    _createConnection(callback) {
         let client = new MongoClient();
         let connectionString = _getConnectionString();
 
@@ -13,26 +17,28 @@ class Connection {
             if (err) return console.log(err.message);
 
             console.info(`Connected: ${connectionString}`);
+            callback(db);
+            db.close();           
+        });
+    }
 
-            _insertCollection(db, () => {
-                db.close();
+    /**
+     * Insert collection to database
+     * @param {String} name
+     * @param {JSON} collection
+     * @public
+     */
+    insertCollection(name, collection) {
+
+        this._createConnection((db) => {
+            let coll = db.collection(name);
+
+            coll.insert(collection, (err, result) => {
+                if (err) return console.log(err.message);
             });
         });
-    } 
-}
 
-/**
- * @function _insertCollection
- * @param {Db} db
- * @param {function} callback
- * @private
- */
-function _insertCollection(db, callback) {
-    let collection = db.collection('humans');
-
-    collection.insert(defaultCollection, (err, result) => {
-        if (err) return console.log(err.message);
-    });
+    }
 }
 
 /**

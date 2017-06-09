@@ -1,12 +1,14 @@
 'use strict';
 
-const Connection = require('./libs/enteties/connection');
+const Connection = require('src/libs/enteties/connection');
+const defaultCollection = require('src/defaultCollection.json');
 
 class MongoSuperClient {
     constructor() {}
 
     init() {
-        new Connection();
+        let connection = new Connection();
+        connection.insertCollection('humans', defaultCollection);
     }
 }
 

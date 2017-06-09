@@ -4,6 +4,7 @@
   "description": "Simple MongoDB client",
   "main": "main.js",
   "scripts": {
+    "postinstall": "gulp dev-sym-links",
     "start": "electron ."
   },
   "repository": {
@@ -17,6 +18,8 @@
     "electron": "~1.6.2",
     "electron-packager": "^8.7.1",
     "electron-prebuilt": "^1.4.13",
+    "gulp": "^3.9.1",
+    "gulp-symlink": "^2.1.4",
     "jasmine-core": "^2.6.3",
     "karma": "^1.7.0",
     "karma-electron-launcher": "^0.2.0",

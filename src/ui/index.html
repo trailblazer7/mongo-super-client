@@ -7,14 +7,15 @@
     <link href="../../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
     <link href="./css/styles.css" rel="stylesheet">
 
+    <script src="../../node_modules/jquery/dist/jquery.js"></script>
     <script src="../../node_modules/angular/angular.js"></script>
     <script src="../../node_modules/angular-route/angular-route.js"></script>
-    <script src="../../node_modules/jquery/dist/jquery.js"></script>
 
     <script src="./app.js"></script>
     <script src="./directives/result/result.js"></script>
     <script src="./directives/result/resultCtrl.js"></script>
     <script src="./controllers/queryCtrl.js"></script>
+    <script src="./services/expressionHandler.js"></script>
   </head>
   <body>
     <div class="container" ng-controller="queryCtrl">
@@ -29,7 +30,9 @@
       <div class="form-group">
         <h2>QUERY: <span class="control-label has-success query-text">{{yourQuery}}</span></h2> 
       </div>
-      <result></result>
+      <div class="form-group">
+        {{queryResult}}
+      </div>
     </div>
   </body>
 </html>
