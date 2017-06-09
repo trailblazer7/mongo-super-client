@@ -1,10 +1,11 @@
 'use strict';
 
 const dbConfig = {
-    host: '',
-    port: '',
-    user: '',
-    pass: ''
-}
+    host: 'localhost',
+    port: '27017',
+    user: 'root',
+    pass: '',
+    dbName: 'superDb'
+};
 
 module.exports = dbConfig;

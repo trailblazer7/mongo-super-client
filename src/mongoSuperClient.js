@@ -1,10 +1,12 @@
 'use strict';
 
-const appConfig = require('src/config/appConfig');
+const Connection = require('./libs/enteties/connection');
 
 class MongoSuperClient {
-    constructor() {
+    constructor() {}
 
+    init() {
+        new Connection();
     }
 }
 
