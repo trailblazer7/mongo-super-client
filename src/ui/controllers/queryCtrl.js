@@ -22,9 +22,5 @@ angular.module('app').controller('queryCtrl', [
             
           $scope.yourQuery = '';
       }
-
-      function _some() {
-
-      }
   }
 ]);
