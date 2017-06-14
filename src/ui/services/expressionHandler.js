@@ -4,7 +4,6 @@ angular.module('app').factory('expressionHandler', [
   function($q, mongoQueryAdapter) {
 
     function ExpressionHandler() {
-        const KEYWORDS = ['select', 'from', 'where', 'order by', 'skip', 'limit'];
         const PARAMS = {
             'select': { 'value': '*' },
             'from': { 'value': undefined },
@@ -39,7 +38,6 @@ angular.module('app').factory('expressionHandler', [
                         PARAMS['select']['value'] = {};
                     }
 
-                    //TODO: field.subfield, field.*
                     PARAMS['select']['value'][_strTrim(part)] = 1;
                 }
             } else {
@@ -87,11 +85,15 @@ angular.module('app').factory('expressionHandler', [
                  }
 
                  for (let part of _this._expression) {
-                     if (KEYWORDS.indexOf(part) > -1) {
+                     if (_this.KEYWORDS.indexOf(part) > -1) {
                          break;
                      }
                       
                      part = _strTrim(part);
+
+                     if (!isNaN(part)) {
+                        part = Number(part);
+                     }
 
                      if (part === '=' && buffer.prev) {
                         let prev = buffer.prev;
@@ -134,10 +136,11 @@ angular.module('app').factory('expressionHandler', [
                  /**
                   * Set condition data from buffer to PARAMS with Mongo syntax 
                   */
-                 if (buffer.and.length) {
+                 if (buffer.and.length || buffer.condBuffer.length) {
                     let conditionObject = {};
+                    let _buffer = buffer.and.length ? buffer.and : buffer.condBuffer;
 
-                    for (let obj of buffer.and) {
+                    for (let obj of _buffer) {
                         Object.assign(conditionObject, obj);
                     }
 
@@ -149,7 +152,6 @@ angular.module('app').factory('expressionHandler', [
                         '$or' : buffer.or
                     };
                  }
-
              }
         }
 
@@ -167,7 +169,7 @@ angular.module('app').factory('expressionHandler', [
                  let buffer = null;
                  let orderObject = {};
                  for (let part of _this._expression) {
-                     if (KEYWORDS.indexOf(part) > -1) {
+                     if (_this.KEYWORDS.indexOf(part) > -1) {
                          break;
                      }
 
@@ -224,6 +226,23 @@ angular.module('app').factory('expressionHandler', [
             return str.replace(/[',]/g, '');
         }
     }
+    
+    ExpressionHandler.prototype.KEYWORDS = ['select', 'from', 'where', 'order by', 'skip', 'limit'];
+
+    ExpressionHandler.prototype.keywordsToLowerCase = function () {
+        if (this._expression && this._expression.length) {
+            let words = this.KEYWORDS.concat(['and', 'or', 'asc', 'desc', 'order', 'by']);
+            let _expression = this._expression;
+
+            _expression.forEach(function (word, index) {
+                word = word.toLowerCase();
+
+                if (words.indexOf(word) > -1) {
+                    _expression[index] = word;
+                }
+            });
+        }
+    }
 
     ExpressionHandler.prototype.setExpression = function (expression) {
         var deferred = $q.defer();
@@ -231,7 +250,8 @@ angular.module('app').factory('expressionHandler', [
         if (!expression) {
             deferred.reject('Query expression is empty, please type something.');
         } else {
-            this._expression = expression.toLowerCase().split(' ');
+            this._expression = expression.split(' ');
+            this.keywordsToLowerCase();
             let result = this._parseExpression();
 
             if (result instanceof Error) {
@@ -277,6 +297,6 @@ angular.module('app').factory('expressionHandler', [
         return parseResult;
     }
 
-    return new ExpressionHandler();
+    return ExpressionHandler;
   }
 ]);

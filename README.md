@@ -18,5 +18,5 @@ npm start
 
 ### Tests
 ```shell
-make test
+npm test
 ```

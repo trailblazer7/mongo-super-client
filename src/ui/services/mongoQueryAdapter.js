@@ -13,13 +13,20 @@ angular.module('app').factory('mongoQueryAdapter', [
         } else {
             let connection = new Connection();
             connection._createConnection((db) => {
-                let dbQuery = db.humans.find();
-
-                console.log( dbQuery );
-
-                if (true) {
-
-                }
+                console.log(params);
+                let cursor = db.collection(params.from.value);
+                let select = (typeof params.select.value === 'object') ? params.select.value : {};
+                let where = (typeof params.where.value === 'object') ? params.where.value : {};  
+                
+                cursor = cursor.find(where, select);
+            
+                cursor.each(function (err, doc) {
+                    if (doc != null) {
+                        console.dir(doc);
+                    } else {
+                        
+                    }
+                });
             });
 
             let result = `TODO Result: `;

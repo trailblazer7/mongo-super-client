@@ -7,7 +7,9 @@ angular.module('app').controller('queryCtrl', [
             $scope.queryResult = 'Query is empty, please type something.';
           }
 
-          expressionHandler
+          let ExpressionHandler = new expressionHandler();
+          
+          ExpressionHandler
             .setExpression($scope.yourQuery)
             .then(
                 (result) => {
@@ -18,6 +20,7 @@ angular.module('app').controller('queryCtrl', [
                 }
             );
             
+          $scope.prevQuery = $scope.yourQuery;
           $scope.yourQuery = '';
       }
   }
