@@ -10,7 +10,7 @@ Simple MongoDB Client
 npm install
 ```
 
-* DB config in src/dbConfig.js
+* DB connection configuration in src/dbConfig.js
 
 * Start the app
 
