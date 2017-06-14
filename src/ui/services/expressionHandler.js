@@ -43,7 +43,7 @@ angular.module('app').factory('expressionHandler', [
                     PARAMS['select']['value'][_strTrim(part)] = 1;
                 }
             } else {
-                return 'Wrong SELECT statement.';
+                return new Error('Wrong SELECT statement.');
             }
         }
 
@@ -56,7 +56,7 @@ angular.module('app').factory('expressionHandler', [
                  let target = _this._expression[index+1];
                  target && ( PARAMS['from']['value'] = _strTrim(target) );
              } else {
-                 return 'Wrong FROM statement.';
+                 return new Error('Wrong FROM statement.');
              }
         }
 
@@ -150,8 +150,6 @@ angular.module('app').factory('expressionHandler', [
                     };
                  }
 
-             } else {
-                 return 'Wrong WHERE statement.';
              }
         }
 
@@ -189,8 +187,6 @@ angular.module('app').factory('expressionHandler', [
                  }
 
                  PARAMS['order_by']['value'] = orderObject;
-            } else {
-                return 'Wrong ORDER BY statement.';
             }
         }
         
@@ -202,8 +198,6 @@ angular.module('app').factory('expressionHandler', [
              if (index > 0) {
                  let target = _this._expression[index+1];
                  target && ( PARAMS['skip']['value'] = Number(_strTrim(target)) );
-             } else {
-                 return 'Wrong SKIP statement.';
              }
         }
         
@@ -215,8 +209,6 @@ angular.module('app').factory('expressionHandler', [
              if (index > 0) {
                  let target = _this._expression[index+1];
                  target && ( PARAMS['limit']['value'] = Number(_strTrim(target)) );
-             } else {
-                 return 'Wrong LIMIT statement.';
              }
         }
 
@@ -240,11 +232,14 @@ angular.module('app').factory('expressionHandler', [
             deferred.reject('Query expression is empty, please type something.');
         } else {
             this._expression = expression.toLowerCase().split(' ');
-            this._parseExpression();
+            let result = this._parseExpression();
 
-            console.log(this._params);
+            if (result instanceof Error) {
+                result = `${result.name}: ${result.message}`;
+            } else if (!result) {
+                result = 'There is no results on your query.';
+            }
 
-            let result = `TODO Result: ${expression}`;
             deferred.resolve(result);
         }
 
@@ -252,22 +247,34 @@ angular.module('app').factory('expressionHandler', [
     }
 
     ExpressionHandler.prototype._parseExpression = function () {
-        if (this._expression) {
-            _.forEach(this._params, function (params) {
-                params.analysis && params.analysis();
-            });
+        let parseResult;
 
-             mongoQueryAdapter
-            .setQueryParams(this._params)
-            .then(
-                (result) => {
-                    //$scope.queryResult = result;
-                },
-                (reason) => {
-                    //$scope.queryResult = reason;
+        _.every(this._params, function (params) {
+            if (params.analysis) {
+                parseResult = params.analysis(); 
+
+                if (parseResult instanceof Error) {
+                    return false;
                 }
-            );
+
+                return true;
+            } 
+        });
+
+        if ( !(parseResult instanceof Error) ) {
+            mongoQueryAdapter
+                .setQueryParams(this._params)
+                .then(
+                    (result) => {
+                        parseResult = result;
+                    },
+                    (reason) => {
+                        parseResult = reason;
+                    }
+                );
         }
+
+        return parseResult;
     }
 
     return new ExpressionHandler();
