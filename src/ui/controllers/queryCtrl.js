@@ -4,8 +4,11 @@ angular.module('app').controller('queryCtrl', [
   'mongoQueryAdapter',
   ($scope, expressionHandler, mongoQueryAdapter) => {
       $scope.runQuery = function() {
+          $scope.errorMessage = '';
+          $scope.queryResult = '';
+
           if (!$scope.yourQuery) {
-            $scope.queryResult = 'Query is empty, please type something.';
+            $scope.errorMessage = 'Query is empty, please type something.';
             return;
           }
 
@@ -22,12 +25,12 @@ angular.module('app').controller('queryCtrl', [
                                 $scope.queryResult = result; 
                             },
                             (error) => { 
-                                $scope.queryResult = error.message; 
+                                $scope.errorMessage = error.message; 
                             }
                         );
                 },
                 (error) => {
-                    $scope.queryResult = error.message;
+                    $scope.errorMessage = error.message;
                 }
             );
             

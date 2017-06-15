@@ -18,7 +18,7 @@ npm start
 
 ### DB config
 
-* DB connection config in src/dbConfig.js
+* DB connection and default collection name config in src/dbConfig.js
 
 ### Set default db collection
 

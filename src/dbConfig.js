@@ -5,7 +5,8 @@ const dbConfig = {
     port: '27017',
     user: 'root',
     pass: '',
-    dbName: 'superDb'
+    dbName: 'superDb',
+    defCollectionName: 'humans'
 };
 
 module.exports = dbConfig;
