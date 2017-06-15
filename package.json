@@ -7,6 +7,7 @@
     "postinstall": "gulp dev-sym-links",
     "start": "electron .",
     "test": "gulp app-test"
+    
   },
   "repository": {
     "type": "git",
