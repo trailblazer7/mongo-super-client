@@ -8,6 +8,7 @@ services:
 before_script:
   - npm install gulp
   - npm install gulp-symlink
+  - npm install karma
 os:
   - linux
   - osx
