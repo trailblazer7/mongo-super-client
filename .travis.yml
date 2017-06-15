@@ -6,7 +6,7 @@ notifications:
 services:
   - mongodb
 before_script:
-  - npm install -g gulp
+  - npm install gulp
 os:
   - linux
   - osx
