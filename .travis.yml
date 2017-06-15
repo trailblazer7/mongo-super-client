@@ -3,6 +3,10 @@ node_js:
   - "6"
 notifications:
   email: false
+services:
+  - mongodb
+before_script:
+  - npm install -g gulp
 os:
   - linux
   - osx
