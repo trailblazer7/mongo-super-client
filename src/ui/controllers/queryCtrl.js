@@ -3,6 +3,9 @@ angular.module('app').controller('queryCtrl', [
   'expressionHandler',
   'mongoQueryAdapter',
   ($scope, expressionHandler, mongoQueryAdapter) => {
+      const dbConfig = require('src/dbConfig.js');
+
+      $scope.defaultCollection = dbConfig.defCollectionName;
       $scope.runQuery = function() {
           $scope.errorMessage = '';
           $scope.queryResult = '';
