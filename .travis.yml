@@ -9,6 +9,9 @@ before_script:
   - npm install gulp
   - npm install gulp-symlink
   - npm install karma
+  - npm install jasmine-core
+  - npm install karma-jasmine-html-reporter
+  - npm install karma-spec-reporter
 os:
   - linux
   - osx
