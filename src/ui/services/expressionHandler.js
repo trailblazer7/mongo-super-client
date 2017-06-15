@@ -1,7 +1,6 @@
 angular.module('app').factory('expressionHandler', [
   '$q',
-  'mongoQueryAdapter',
-  function($q, mongoQueryAdapter) {
+  function($q) {
 
     function ExpressionHandler() {
         const PARAMS = {
@@ -248,25 +247,23 @@ angular.module('app').factory('expressionHandler', [
         var deferred = $q.defer();
 
         if (!expression) {
-            deferred.reject('Query expression is empty, please type something.');
+            deferred.reject(new Error('Query expression is empty, please type something.'));
         } else {
             this._expression = expression.split(' ');
             this.keywordsToLowerCase();
-            let result = this._parseExpression();
+            let result = this.parseExpression();
 
             if (result instanceof Error) {
-                result = `${result.name}: ${result.message}`;
-            } else if (!result) {
-                result = 'There is no results on your query.';
+                deferred.reject(`${result.name}: ${result.message}`);
+            } else {
+                deferred.resolve(this._params);
             }
-
-            deferred.resolve(result);
         }
 
         return deferred.promise;
     }
 
-    ExpressionHandler.prototype._parseExpression = function () {
+    ExpressionHandler.prototype.parseExpression = function () {
         let parseResult;
 
         _.every(this._params, function (params) {
@@ -280,19 +277,6 @@ angular.module('app').factory('expressionHandler', [
                 return true;
             } 
         });
-
-        if ( !(parseResult instanceof Error) ) {
-            mongoQueryAdapter
-                .setQueryParams(this._params)
-                .then(
-                    (result) => {
-                        parseResult = result;
-                    },
-                    (reason) => {
-                        parseResult = reason;
-                    }
-                );
-        }
 
         return parseResult;
     }

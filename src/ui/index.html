@@ -16,8 +16,6 @@
     <script src="../../node_modules/angular-route/angular-route.js"></script>
 
     <script src="./app.js"></script>
-    <script src="./directives/result/result.js"></script>
-    <script src="./directives/result/resultCtrl.js"></script>
     <script src="./controllers/queryCtrl.js"></script>
     <script src="./services/mongoQueryAdapter.js"></script>
     <script src="./services/expressionHandler.js"></script>
@@ -33,10 +31,17 @@
         <textarea class="form-control main-textarea" rows="3" placeholder="Enter Your Query" ng-model="yourQuery"></textarea>
       </div>
       <div class="form-group">
-        <h2>QUERY: <span class="control-label has-success query-text">{{prevQuery}}</span></h2> 
+        <h2>QUERY: <span class="control-label has-success query-text" ng-cloak>{{prevQuery}}</span></h2> 
       </div>
       <div class="form-group">
-        {{queryResult}}
+        <div ng-repeat="item in queryResult" class="result-row" ng-cloak>
+          <table class="table table-striped">
+            <tr ng-repeat="(key, value) in item">
+              <td><b>{{key}}</b></td>
+              <td>{{value}}</td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
   </body>

@@ -1,10 +1,12 @@
 angular.module('app').controller('queryCtrl', [
   '$scope',
   'expressionHandler',
-  ($scope, expressionHandler) => {
+  'mongoQueryAdapter',
+  ($scope, expressionHandler, mongoQueryAdapter) => {
       $scope.runQuery = function() {
           if (!$scope.yourQuery) {
             $scope.queryResult = 'Query is empty, please type something.';
+            return;
           }
 
           let ExpressionHandler = new expressionHandler();
@@ -12,11 +14,20 @@ angular.module('app').controller('queryCtrl', [
           ExpressionHandler
             .setExpression($scope.yourQuery)
             .then(
-                (result) => {
-                    $scope.queryResult = result;
+                (params) => {
+                    mongoQueryAdapter
+                        .setQueryParams(params)
+                        .then(
+                            (result) => { 
+                                $scope.queryResult = result; 
+                            },
+                            (error) => { 
+                                $scope.queryResult = error.message; 
+                            }
+                        );
                 },
-                (reason) => {
-                    $scope.queryResult = reason;
+                (error) => {
+                    $scope.queryResult = error.message;
                 }
             );
             

@@ -6,31 +6,36 @@ angular.module('app').factory('mongoQueryAdapter', [
     function MongoQueryAdapter () {}
 
     MongoQueryAdapter.prototype.setQueryParams = function (params) {
-        var deferred = $q.defer();
+        let deferred = $q.defer();
 
         if (!params) {
-            deferred.reject('Error: Query params are empty.');
+            deferred.reject(new Error('Error: Query params are empty.'));
         } else {
             let connection = new Connection();
             connection._createConnection((db) => {
-                console.log(params);
+                let result = [];
                 let cursor = db.collection(params.from.value);
                 let select = (typeof params.select.value === 'object') ? params.select.value : {};
                 let where = (typeof params.where.value === 'object') ? params.where.value : {};  
                 
                 cursor = cursor.find(where, select);
-            
+
+                if (params.limit.value) {
+                    cursor = cursor.limit(params.limit.value);
+                }
+
+                if (params.skip.value) {
+                    cursor = cursor.limit(params.skip.value);
+                }
+
                 cursor.each(function (err, doc) {
                     if (doc != null) {
-                        console.dir(doc);
+                        result.push(doc);
                     } else {
-                        
+                        deferred.resolve(result);
                     }
                 });
             });
-
-            let result = `TODO Result: `;
-            deferred.resolve(result);
         }
 
         return deferred.promise;

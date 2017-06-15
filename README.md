@@ -1,5 +1,5 @@
 ## Mongo Super Client
-Simple MongoDB Client
+Simple MongoDB Client with Electron and AngularJs
 
 ## Quick Start
 
@@ -19,6 +19,10 @@ npm start
 ### DB config
 
 * DB connection config in src/dbConfig.js
+
+### Set default db collection
+
+* DB collection in src/defaultCollection.json
 
 ### Tests
 ```shell

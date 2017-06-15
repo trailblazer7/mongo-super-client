@@ -3,6 +3,7 @@
 const gulp = require('gulp');
 const symlink = require('gulp-symlink');
 const fs = require('fs');
+const KarmaServer = require('karma').Server;
 
 /* ------------------------------------------------
  * Sym Links
@@ -16,6 +17,14 @@ gulp.task('dev-sym-links', ['remove-link-src'], () => {
     .pipe(symlink(['./node_modules/src'], {
       force: true
     }));
+});
+
+gulp.task('app-test', [], () => {
+  new KarmaServer({
+        singleRun: false,
+        autoWatch: true,
+        configFile: __dirname + '/tests/unit-ui/karma.conf.js'
+    }).start();
 });
 
 function unlink(symlink, next) {
