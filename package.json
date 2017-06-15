@@ -7,7 +7,6 @@
     "postinstall": "gulp dev-sym-links",
     "start": "electron .",
     "test": "gulp app-test"
-    
   },
   "repository": {
     "type": "git",
@@ -38,6 +37,7 @@
     "bootstrap": "^3.3.7",
     "electron-gh-releases": "^2.0.4",
     "electron-packager": "^8.7.1",
+    "gulp": "^3.9.1",
     "jquery": "^3.2.1",
     "mongodb": "^2.2.28",
     "underscore": "^1.8.3"
