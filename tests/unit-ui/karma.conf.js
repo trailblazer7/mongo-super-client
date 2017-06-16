@@ -2,7 +2,7 @@
 
 module.exports = config => {
 
-  config.set({
+  let _set = {
     frameworks: ['jasmine'],
     reporters: ['spec', 'kjhtml'],
     port: 9876,
@@ -13,7 +13,6 @@ module.exports = config => {
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
-    browsers: ['Chrome', 'Firefox'],
     // If browser does not capture in given timeout [ms], kill it
     captureTimeout: 60000,
     customLaunchers: {  
@@ -35,5 +34,13 @@ module.exports = config => {
       '../../src/ui/services/*.js',
       './**/*-test.js'
     ]
-  });
+  };
+
+  if (process.env.TRAVIS) {
+      _set.browsers = ['Chrome_travis_ci'];
+  } else {
+      _set.browsers = ['Chrome', 'Firefox'];
+  }
+
+  config.set(_set);
 };
