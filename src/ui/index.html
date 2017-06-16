@@ -23,7 +23,7 @@
   <body>
     <div class="container" ng-controller="queryCtrl">
       <h1>Mongo Super Client</h1>
-      <h5>Default collection: {{defaultCollection}}</h5>
+      <h5 ng-cloak>Default collection: {{defaultCollection}}</h5>
 
       <div class="form-group">
         <button type="button" ng-click="runQuery()" class="btn btn-success">Run</button>
